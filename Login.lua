@@ -2,18 +2,6 @@ local widget =  require ("widget") -- para os botoes
 local composer = require ("composer") -- para as telas
 local scene = composer.newScene()
 
------------------------conectar ao banco de dados ------------------------
-local sqlite3 = require( "sqlite3" )
- 
-local path = system.pathForFile( "data.db", system.DocumentsDirectory )
-local db = sqlite3.open( path )
---------------------------------------------------------------------------
-
-function CriarBancoDeDados(event)
-	local tablesetup = [[CREATE TABLE IF NOT EXISTS cliente (id INTEGER PRIMARY KEY autoincrement, nome, email, telefone, senha);]]
-	variavel = db:exec( tablesetup )
-	print("criacao do banco : " .. variavel)
-end
 
 CriarBancoDeDados()
 
@@ -58,7 +46,7 @@ function touchOnButtonLogin(event) -- toque no botao de login
     	--print( "Row id " .. row.id )
     		if row.nome == TxtUserName.text or row.email == TxtUserName.text then
     			if row.senha == TxtPassword.text then
-    				print( "Row id2 " .. row.id )
+    			--	print( "Row id2 " .. row.id )
     			StoreID(row.id)
     			composer.gotoScene("logado")
     			end

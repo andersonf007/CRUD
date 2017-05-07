@@ -1,13 +1,7 @@
 local widget =  require ("widget")
 local composer = require ("composer")
 local scene = composer.newScene()
-
------------------------conectar ao banco de dados ------------------------
-local sqlite3 = require( "sqlite3" )
- 
-local path = system.pathForFile( "data.db", system.DocumentsDirectory )
-local db = sqlite3.open( path )
---------------------------------------------------------------------------
+local BancoDeDados = require ("BancoDeDados")
 
 local LabelNome
 local LabelEmail
@@ -19,19 +13,8 @@ local TxtTelefone
 local TxtSenha
 local ButtonCadastrar 
 
-function CriarBancoDeDados(event)
-	local tablesetup = [[CREATE TABLE IF NOT EXISTS cliente (id INTEGER PRIMARY KEY autoincrement, nome, email, telefone, senha);]]
-	variavel = db:exec( tablesetup )
-	print("criacao do banco : " .. variavel)
-end
+BancoDeDados:CriarBancoDeDados()
 
-CriarBancoDeDados()
-
-function InserirNoBancoDeDados(nome, email, telefone, senha)
-	local insertQuery = [[INSERT INTO cliente VALUES (NULL, ']]..nome..[[',']]..email..[[',']]..telefone..[[',']]..senha..[[');]]
-	db:exec( insertQuery )
-	print("mendagem do banco : " .. db:errmsg())
-end
 
 function scene:create(event)
 
@@ -60,7 +43,7 @@ end
 function RegisterCustomer(event)
 
 	if event.phase == "began" then
-		InserirNoBancoDeDados(TxtNome.text, TxtEmail.text, TxtTelefone.text, TxtSenha.text)
+		BancoDeDados:InserirNoBancoDeDados(TxtNome.text, TxtEmail.text, TxtTelefone.text, TxtSenha.text)
 		TxtNome.text = ""
 		TxtEmail.text = ""
 		TxtTelefone.text = ""
