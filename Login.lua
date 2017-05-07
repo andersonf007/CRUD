@@ -9,6 +9,14 @@ local path = system.pathForFile( "data.db", system.DocumentsDirectory )
 local db = sqlite3.open( path )
 --------------------------------------------------------------------------
 
+function CriarBancoDeDados(event)
+	local tablesetup = [[CREATE TABLE IF NOT EXISTS cliente (id INTEGER PRIMARY KEY autoincrement, nome, email, telefone, senha);]]
+	variavel = db:exec( tablesetup )
+	print("criacao do banco : " .. variavel)
+end
+
+CriarBancoDeDados()
+
 local LabelUser
 local LabelPassword
 local TxtUserName
@@ -38,7 +46,9 @@ function scene:create(event)
 end
 
 function StoreID(id)
-	return id
+
+	ID = id
+	
 end
 
 function touchOnButtonLogin(event) -- toque no botao de login
@@ -48,7 +58,7 @@ function touchOnButtonLogin(event) -- toque no botao de login
     	--print( "Row id " .. row.id )
     		if row.nome == TxtUserName.text or row.email == TxtUserName.text then
     			if row.senha == TxtPassword.text then
-    			--	print( "Row id2 " .. row.id )
+    				print( "Row id2 " .. row.id )
     			StoreID(row.id)
     			composer.gotoScene("logado")
     			end

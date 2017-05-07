@@ -2,7 +2,12 @@ local widget =  require ("widget")
 local composer = require ("composer")
 local scene = composer.newScene()
 local login = require ("Login")
-
+-----------------------conectar ao banco de dados ------------------------
+local sqlite3 = require( "sqlite3" )
+ 
+local path = system.pathForFile( "data.db", system.DocumentsDirectory )
+local db = sqlite3.open( path )
+--------------------------------------------------------------------------
 local LabelNome
 local LabelEmail
 local LabelTelefone
@@ -12,10 +17,7 @@ local TxtEmail
 local TxtTelefone
 local TxtSenha
 local ButtonSave 
---[[
-variavel = login.StoreID()
-print(variavel)
-]]
+
 function scene:create(event)
 
 	local grupoDeSena = self.view 
@@ -60,6 +62,17 @@ end
 
 function scene:destroy(event)
 end
+
+function Fillfields() --funcao para preencher os campos
+	
+	for row in db:nrows("SELECT * FROM cliente WHERE id = '"..ID.."'") do
+		TxtNome.text = "abh"
+	end
+
+end
+
+
+Fillfields()
 
 scene:addEventListener( "create", scene ) -- adiciona o evento da funcao de criar 
 scene:addEventListener( "show", scene ) -- adiciona o evento da funcao de entre 
