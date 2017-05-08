@@ -1,9 +1,7 @@
 local widget =  require ("widget") -- para os botoes
 local composer = require ("composer") -- para as telas
 local scene = composer.newScene()
-
-
-CriarBancoDeDados()
+local BancoDeDados = require ("BancoDeDados")
 
 local LabelUser
 local LabelPassword
@@ -12,7 +10,6 @@ local TxtPassword
 local Buttonlogin
 local ButtonSingIn
 local storeID -- armazenar id
-
 
 function scene:create(event)
 	
@@ -29,7 +26,7 @@ function scene:create(event)
 	Buttonlogin = widget.newButton( {label="login", x = display.contentWidth/2, y = display.contentHeight/2 + 80, onPress = touchOnButtonLogin} )
 	grupoDeSena:insert(Buttonlogin)
 
-	ButtonSingIn = widget.newButton( {label="Register", x = display.contentWidth/2 + 100, y = display.contentHeight/2 + 150, onPress = touchOnButtonSingIn} )
+	ButtonSingIn = widget.newButton( {label="Register", x = display.contentWidth/2 + 100, y = display.contentHeight/2 + 150, onPress = touchOnButtonRegister} )
 	grupoDeSena:insert(ButtonSingIn)
 end
 
@@ -55,7 +52,7 @@ function touchOnButtonLogin(event) -- toque no botao de login
 	end
 end
 
-function  touchOnButtonSingIn(event) -- toque no botao sing in 
+function  touchOnButtonRegister(event) -- toque no botao sing in 
 	-- vai para a pagina de cadastro
 	if event.phase == "began" then
 		composer.gotoScene("CadastrarCliente")

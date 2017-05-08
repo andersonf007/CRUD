@@ -2,12 +2,7 @@ local widget =  require ("widget")
 local composer = require ("composer")
 local scene = composer.newScene()
 local login = require ("Login")
------------------------conectar ao banco de dados ------------------------
-local sqlite3 = require( "sqlite3" )
- 
-local path = system.pathForFile( "data.db", system.DocumentsDirectory )
-local db = sqlite3.open( path )
---------------------------------------------------------------------------
+
 local LabelNome
 local LabelEmail
 local LabelTelefone
@@ -17,6 +12,20 @@ local TxtEmail
 local TxtTelefone
 local TxtSenha
 local ButtonSave 
+
+
+function Fillfields() --funcao para preencher os campos
+	
+	for row in db:nrows("SELECT * FROM cliente WHERE id = '"..ID.."'") do
+		Nome = row.nome
+		Email = row.email
+		Telefone = row.telefone
+		Senha = row.senha
+	end
+
+end
+
+Fillfields()
 
 function scene:create(event)
 
@@ -45,12 +54,21 @@ end
 function scene:show(event)
 	if event.phase == "did" then
 		TxtNome = native.newTextField(display.contentWidth/2 + 5, display.contentHeight/2 - 200, 200, 25 ) 
+		TxtNome.text = nome
+		
 		TxtEmail = native.newTextField(display.contentWidth/2 + 5, display.contentHeight/2 - 150, 200, 25 ) 
+		TxtEmail.text = email
+
 		TxtTelefone = native.newTextField(display.contentWidth/2 + 15, display.contentHeight/2 - 100, 178, 25 ) 
 		TxtTelefone.inputType = "number"
+		TxtTelefone.text = telefone
+
 		TxtSenha = native.newTextField(display.contentWidth/2 + 9, display.contentHeight/2 - 50, 190, 25 ) 
+		TxtSenha.text = senha
 	end
 end
+
+
 
 function scene:hide(event)	
 	display.remove(TxtNome)
@@ -62,17 +80,6 @@ end
 
 function scene:destroy(event)
 end
-
-function Fillfields() --funcao para preencher os campos
-	
-	for row in db:nrows("SELECT * FROM cliente WHERE id = '"..ID.."'") do
-		TxtNome.text = "abh"
-	end
-
-end
-
-
-Fillfields()
 
 scene:addEventListener( "create", scene ) -- adiciona o evento da funcao de criar 
 scene:addEventListener( "show", scene ) -- adiciona o evento da funcao de entre 
